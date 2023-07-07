@@ -1,0 +1,35 @@
+#include <DHT.h> //Library DHT
+
+DHT dht(2, DHT11); //Pin, Jenis DHT
+#define fan 3
+
+void setup(){
+ Serial.begin(9600);
+ pinMode(fan,OUTPUT);
+ digitalWrite(fan,1);
+ dht.begin();
+}
+ 
+void loop(){
+  byte kelembaban = dht.readHumidity();
+  byte suhu = dht.readTemperature();
+
+  Serial.println("--------------------------------------------------");
+  Serial.print("suhu: ");
+  Serial.print(suhu);
+  Serial.println("℃");  // menampilkan simbol derajat (°) dan satuan Celsius (C)
+  Serial.print("kelembaban: ");
+  Serial.print(kelembaban);
+  Serial.println("%");
+
+  if (suhu >= 30){
+    digitalWrite(fan,0);
+    Serial.println("Kipas Hidup| Suhu Panas");
+  } else{
+    digitalWrite(fan,1);
+    Serial.println("Kipas Mati |  Suhu Dingin");
+  }
+  delay(3000);
+}
+
+
